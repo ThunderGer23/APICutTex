@@ -1,8 +1,8 @@
 a = {
-    "page": 'v',
-    "section1": ['resumen', 'vii', 'abstract'],
-    "section2": ['abstract', 'viii', 'indice de figuras'],
-    "section3": ['indice de figuras', 'vii', 'abstract'],
-    "section1": ['resumen', 'vii', 'abstract'],
+    "page": 'x',
+    "section1": ['resumen', 'viii'],
+    "section2": ['abstract', 'ix'],
+    "section3": ['palabras clave'],
+    "section1": ['objetivos', 'vii'],
 
 }
