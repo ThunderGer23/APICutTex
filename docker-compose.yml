@@ -1,0 +1,13 @@
+version: "3.9.6"
+services:
+  apimoretestneurallinkxd:
+    build: ./
+    runtime: nvidia
+    environment:
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
+      - TOKEN=daa39d53-6283-47a1-b945-b7ee6528dde0
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    ports:
+      - "8000:8000"
