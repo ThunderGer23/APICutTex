@@ -1,5 +1,8 @@
 from difflib import get_close_matches as gcm
 import PyPDF2
+import re
+pdfRead = PyPDF2.PdfFileReader(open('document\TesisNotGenitoIndice.pdf', 'rb'))
+
 def processText(hojas):
     p = list(map(lambda i : i.strip(), [''.join(list(filter(lambda i : (i.isalnum() or i==' '),p))) for p in list(hojas.lower().split('\n'))]))
     test = {'page':p[0]}
@@ -13,14 +16,32 @@ def processText(hojas):
     if(len(resultados)): sections(resultados)
     return test
 
+def delnum(s):
+    for i in range(10):
+        s = s.replace(str(i),'')
+    return s
+
 def sections(section):
-    # print(section)
     # print(list(i.split() for i in section))
-    pdfRead = PyPDF2.PdfFileReader(open('document\TesisNotGenitoIndice.pdf', 'rb'))
     s = {}
     for i in section:
         aux = i.split()
-        s[aux[0]] = {
-            "sec": aux[1:-1],
-            "pag": aux[-1]}
+        s[aux[0]] = {"sec": " ".join(aux[1:-1]), "pag": aux[-1]}
+
+    arr = list(s.keys())
+    for i in range(2, len(arr)):
+        title = " ".join(delnum(s[arr[i]]['sec']).split()[:-1])
+        pretitle = " ".join(delnum(s[arr[i-1]]['sec']).split()[:-1])
+        print(pretitle, title)
+        # No encuentra porque hay que guardar el rando de hojas en donde se va a buscar
+        # Si ambos están en la misma hoja solo lee una y ya, si son diferentes hace un
+        # append a un array de las hojas y extrae el texto de todas ellas para después seccionar
+        page = pdfRead.getPage(int(s[arr[i]]['pag'])-1).extract_text().lower()
+        regex = re.compile(pretitle+r' \n*(.*?).\n*'+title, re.DOTALL)
+        match = regex.search(page)
+        if(match != None):
+            sec = match.group(1)
+            # print(sec)
+        # break
+    # return s
 
