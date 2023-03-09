@@ -24,6 +24,8 @@ def delnum(s):
 def sections(section):
     # print(list(i.split() for i in section))
     s = {}
+    secforana = ""
+    CONT = 0
     for i in section:
         aux = i.split()
         s[aux[0]] = {"sec": " ".join(aux[1:-1]), "pag": aux[-1]}
@@ -32,15 +34,42 @@ def sections(section):
     for i in range(2, len(arr)):
         title = " ".join(delnum(s[arr[i]]['sec']).split()[:-1])
         pretitle = " ".join(delnum(s[arr[i-1]]['sec']).split()[:-1])
-        print(pretitle, title)
-        # No encuentra porque hay que guardar el rando de hojas en donde se va a buscar
-        # Si ambos están en la misma hoja solo lee una y ya, si son diferentes hace un
-        # append a un array de las hojas y extrae el texto de todas ellas para después seccionar
-        page = pdfRead.getPage(int(s[arr[i]]['pag'])-1).extract_text().lower()
-        regex = re.compile(pretitle+r' \n*(.*?).\n*'+title, re.DOTALL)
-        match = regex.search(page)
-        if(match != None):
-            sec = match.group(1)
+        page = int(s[arr[i]]['pag'])
+        pageRange = page - int(s[arr[i-1]]['pag'])
+        regex = re.compile(pretitle + r' \n*(.*?).\n*'+ title, re.DOTALL)
+
+        if (pageRange != 0):
+            print(title)
+            print(pretitle)
+            # caso especialpara que las secciones de 2 hojas las imprima
+            for ran in range(page, page + pageRange):
+                pa = pdfRead.getPage(ran-1).extract_text().lower()
+                secforana += pa
+            match = regex.search(secforana)
+            if(match != None):
+                sec = match.group(1)
+                print(sec)
+                CONT += 1
+        else:
+            # print(pageRange)
+            # print(title)
+            # print(pretitle)
+            pa = pdfRead.getPage(int(s[arr[i]]['pag'])-1).extract_text().lower()
+            match = regex.search(pa)
+            if(match != None):
+                sec = match.group(1)
+                print(sec)
+                CONT += 1
+        # if(CONT == 5): break
+        # print(pretitle, title)
+        # # No encuentra porque hay que guardar el rando de hojas en donde se va a buscar
+        # # Si ambos están en la misma hoja solo lee una y ya, si son diferentes hace un
+        # # append a un array de las hojas y extrae el texto de todas ellas para después seccionar
+        # page = pdfRead.getPage(int(s[arr[i]]['pag'])-1).extract_text().lower()
+        # regex = re.compile(pretitle+r' \n*(.*?).\n*'+title, re.DOTALL)
+        # match = regex.search(page)
+        # if(match != None):
+        #     sec = match.group(1)
             # print(sec)
         # break
     # return s
