@@ -11,7 +11,6 @@ def processText(hojas):
     if (gcm(test['s1']) for x in ['indice','contenido']): test.pop('s1')
     test.pop('s0')
     coincidencias = list(set([ match for valor in test.values() for match in gcm((lambda x: x.split()[0] if len(x.split()) > 0 else "")(valor), ['objetivo', 'objetivos', 'marco', 'estado', 'planteamiento', 'justificación', 'análisis', 'funcional'],n = 10, cutoff=0.3) ]))
-
     resultados = [f"{k} {v}" for k, v in test.items() if any(c in v for c in coincidencias)]
     if(len(resultados)): sections(resultados)
     return test
@@ -40,7 +39,8 @@ def sections(section):
             match = regex.search(secforana)
         else: match = regex.search(pdfRead.getPage(int(s[arr[i]]['pag'])-1).extract_text().lower())
         analysis = match.group(1) if(match != None) else None
-        r = requests.get('https://pathfake:v/{analysis}')
-        if(r.status_code): r.json()
-    return r
+        # r = requests.get('https://pathfake:v/{analysis}')
+        # if(r.status_code): r.json()
+        print(analysis)
+    return analysis
 

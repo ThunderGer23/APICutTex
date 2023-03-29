@@ -1,5 +1,5 @@
 import PyPDF2
-from fastapi import APIRouter
+from fastapi import APIRouter, File, UploadFile
 from difflib import get_close_matches as gcm
 from itertools import chain
 from helpers.processText import processText as pT
@@ -10,7 +10,7 @@ control = 0
 cF = APIRouter()
 
 # 'document\TesisNotGenitoIndice.pdf'
-@cF.get('/indice', response_model= dict, tags=['Get indice'])
+@cF.get('/indice', response_model= dict, tags=['indice'])
 def readFile(rute: str):
     global control
     pdfRead = PyPDF2.PdfFileReader(open(rute, 'rb'))
@@ -23,3 +23,10 @@ def readFile(rute: str):
     # Aquí se mandan las peticiones a la API de parafraseo, en base al contenido del indice
     # print(pdfRead.getPage(27).extract_text().lower()[:])
     return indice
+
+@cF.post('/indice', tags=['indice'])
+async def createFile(file: UploadFile = File(...)):
+    file_bytes = await file.read()
+    with open(f'document/{file.filename}', 'wb') as f:
+        f.write(file_bytes)
+    return readFile(f'document\{file.filename}')
