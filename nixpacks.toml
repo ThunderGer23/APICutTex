@@ -1,5 +1,8 @@
 [phases.setup]
 nixPkgs = ['python38', 'gcc']
 
+[phases.build]
+cmds = ['. --name APICutText']
+
 [start]
 cmd = "uvicorn app:app --host 0.0.0.0 --reload"

@@ -27,4 +27,4 @@ async def createFile(file: UploadFile = File(...)):
     file_bytes = await file.read()
     with open(f'document/{file.filename}', 'wb') as f:
         f.write(file_bytes)
-    return readFile(f'document\{file.filename}')
+    return readFile(f'document/{file.filename}')
