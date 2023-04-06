@@ -19,7 +19,7 @@ def readFile(rute: str):
 
     for i in range(1, len(hojas)):
         for hoja in range(hojas[i-1], hojas[i]): indice['Ip'+str(hoja)] = pT(pdfRead.getPage(hoja).extract_text())
-    indice['Ip'+str(hojas[-1])] = pT(pdfRead.getPage(hojas[-1]).extract_text())
+    indice['Ip'+str(hojas[-1])] = pT(pdfRead.getPage(hojas[-1]).extract_text(), rute)
     return indice
 
 @cF.post('/indice', tags=['indice'])
