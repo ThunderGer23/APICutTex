@@ -25,6 +25,6 @@ def readFile(rute: str):
 @cF.post('/indice', tags=['indice'])
 async def createFile(file: UploadFile = File(...)):
     file_bytes = await file.read()
-    with open(f'app/document/{file.filename}', 'wb') as f:
+    with open(f'app/./document/{file.filename}', 'wb') as f:
         f.write(file_bytes)
-    return readFile(f'app/document/{file.filename}')
+    return readFile(f'app/./document/{file.filename}')
