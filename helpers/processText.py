@@ -21,7 +21,7 @@ def delnum(s):
     return s
 
 def sections(section, rute):
-    pdfRead = PyPDF2.PdfFileReader(open(rute, 'rb'))
+    pdfRead = PyPDF2.PdfFileReader(open(f'{rute}', 'rb'))
     s = {}
     match = ""
     secforana = ""

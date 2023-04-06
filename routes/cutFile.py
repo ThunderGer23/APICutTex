@@ -13,7 +13,7 @@ cF = APIRouter()
 @cF.get('/indice', response_model= dict, tags=['indice'])
 def readFile(rute: str):
     global control
-    pdfRead = PyPDF2.PdfFileReader(open(rute, 'rb'))
+    pdfRead = PyPDF2.PdfFileReader(open(f'{rute}', 'rb'))
     for i in range(0, int(pdfRead.getNumPages()/10)):
         if(len(list(FI([gcm(x,pdfRead.getPage(i).extract_text().lower()[:20].split(' ')) for x in ['indice','contenido']])))): hojas.append(i)
 
@@ -25,6 +25,6 @@ def readFile(rute: str):
 @cF.post('/indice', tags=['indice'])
 async def createFile(file: UploadFile = File(...)):
     file_bytes = await file.read()
-    with open(f'app/./document/{file.filename}', 'wb') as f:
+    with open(f'{file.filename}', 'wb') as f:
         f.write(file_bytes)
-    return readFile(f'app/./document/{file.filename}')
+    return readFile('{file.filename}')
