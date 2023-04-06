@@ -1,11 +1,9 @@
 FROM python:3.9.6
 
-RUN apt-get update
-RUN apt-get clean
-
 WORKDIR /code
 
-EXPOSE 8000
+RUN apt-get update
+
 ENV PYHTONUNBUFFERED=1
 
 COPY ./ /code
