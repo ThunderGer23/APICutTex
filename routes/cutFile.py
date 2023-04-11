@@ -2,6 +2,7 @@ import PyPDF2
 from fastapi import APIRouter, File, UploadFile
 from difflib import get_close_matches as gcm
 from itertools import chain
+from os import listdir
 from helpers.processText import processText as pT
 FI = chain.from_iterable
 indice = {}
@@ -27,4 +28,5 @@ async def createFile(file: UploadFile = File(...)):
     file_bytes = await file.read()
     with open(f'{file.filename}', 'wb') as f:
         f.write(file_bytes)
+    print(listdir('/'))
     return readFile('{file.filename}')
