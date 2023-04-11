@@ -4,7 +4,7 @@ import PyPDF2
 import re
 # pdfRead = PyPDF2.PdfFileReader(open('document\TesisNotGenitoIndice.pdf', 'rb'))
 
-def processText(hojas, rute):
+def processText(hojas, name):
     p = list(map(lambda i : i.strip(), [''.join(list(filter(lambda i : (i.isalnum() or i==' '),p))) for p in list(hojas.lower().split('\n'))]))
     test = {'page':p[0]}
     for pa in range(len(p)): test[f's{pa}'] = p[pa]
@@ -12,7 +12,7 @@ def processText(hojas, rute):
     test.pop('s0')
     coincidencias = list(set([ match for valor in test.values() for match in gcm((lambda x: x.split()[0] if len(x.split()) > 0 else "")(valor), ['objetivo', 'objetivos', 'marco', 'estado', 'planteamiento', 'justificación', 'análisis', 'funcional'],n = 10, cutoff=0.3) ]))
     resultados = [f"{k} {v}" for k, v in test.items() if any(c in v for c in coincidencias)]
-    if(len(resultados)): sections(resultados, rute)
+    if(len(resultados)): sections(resultados, name)
     return test
 
 def delnum(s):
@@ -20,8 +20,8 @@ def delnum(s):
         s = s.replace(str(i),'')
     return s
 
-def sections(section, rute):
-    pdfRead = PyPDF2.PdfFileReader(open(rute, 'rb'))
+def sections(section, name):
+    pdfRead = PyPDF2.PdfFileReader(open(f'./document/{name}', 'rb'))
     s = {}
     match = ""
     secforana = ""
