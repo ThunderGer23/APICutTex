@@ -30,3 +30,4 @@ async def createFile(file: UploadFile = File(...)):
         f.write(file_bytes)
     print(listdir('./document'))
     return readFile('{file.filename}')
+
