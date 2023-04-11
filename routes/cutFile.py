@@ -28,5 +28,5 @@ async def createFile(file: UploadFile = File(...)):
     file_bytes = await file.read()
     with open(f'{file.filename}', 'wb') as f:
         f.write(file_bytes)
-    print(listdir('/'))
+    print(listdir())
     return readFile('{file.filename}')
