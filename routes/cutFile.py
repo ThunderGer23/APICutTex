@@ -23,12 +23,12 @@ def readFile(rute: str):
     indice['Ip'+str(hojas[-1])] = pT(pdfRead.getPage(hojas[-1]).extract_text(), rute)
     return indice
 
-@cF.post('/indice', tags=['indice'])
-async def createFile(file: UploadFile = File(...)):
-    file_bytes = await file.read()
-    print(listdir('.'))
-    with open(f'./document/{file.filename}', 'wb') as f:
-        f.write(file_bytes)
-    print(listdir('.'))
-    print(listdir('./document'))
-    return readFile(f'./document{file.filename}')
+# @cF.post('/indice', tags=['indice'])
+# async def createFile(file: UploadFile = File(...)):
+#     file_bytes = await file.read()
+#     print(listdir('.'))
+#     with open(f'./document/{file.filename}', 'wb') as f:
+#         f.write(file_bytes)
+#     print(listdir('.'))
+#     print(listdir('./document'))
+#     return readFile(f'./document{file.filename}')
