@@ -12,7 +12,7 @@ control = 0
 cF = APIRouter()
 
 # 'document\TesisNotGenitoIndice.pdf'
-@cF.get('/indice', response_model= dict, tags=['indice'])
+@cF.get('/document', response_model= dict, tags=['indice'])
 def readFile(name):
     global control
     pdfRead = PyPDF2.PdfFileReader(open(f'./document/{name}', 'rb'))
@@ -24,7 +24,7 @@ def readFile(name):
     indice['Ip'+str(hojas[-1])] = pT(pdfRead.getPage(hojas[-1]).extract_text(), name)
     return indice
 
-@cF.post('/indice', tags=['indice'])
+@cF.post('/document', tags=['indice'])
 async def createFile(file: UploadFile = File(...)):
     file_bytes = await file.read()
     with open(f'./document/{file.filename}', 'wb') as f:
