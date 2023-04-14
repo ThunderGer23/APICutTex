@@ -3,8 +3,10 @@ import requests
 import PyPDF2
 import re
 # pdfRead = PyPDF2.PdfFileReader(open('document\TesisNotGenitoIndice.pdf', 'rb'))
-
-def processText(hojas, name):
+Lon = 0
+def processText(hojas, name, lon):
+    global Lon
+    Lon = lon
     p = list(map(lambda i : i.strip(), [''.join(list(filter(lambda i : (i.isalnum() or i==' '),p))) for p in list(hojas.lower().split('\n'))]))
     test = {'page':p[0]}
     for pa in range(len(p)): test[f's{pa}'] = p[pa]
@@ -43,5 +45,6 @@ def sections(section, name):
         # r = requests.get('https://pathfake:v/{analysis}')
         # if(r.status_code): r.json()
         print(analysis)
+        Lon -=1
     return analysis
 
