@@ -1,6 +1,7 @@
 import PyPDF2
 from fastapi import APIRouter, File, UploadFile
 from difflib import get_close_matches as gcm
+from config.db import conn
 from itertools import chain
 from typing import List
 from os import listdir
@@ -28,11 +29,13 @@ def readFile(files):
     return indice
 
 @cF.post('/document', tags=['indice'])
-async def createFile(files: List[UploadFile] = File(...)):
+async def createFile(files):
     filesave = []
-    for file in files:
-        file_bytes = await file.read()
-        filesave.append(file.filename)
-        with open(f'./document/{file.filename}', 'wb') as f:
+    for id in files:
+        file = conn.local.files.find_one({"_id": id})
+        file_name = file['name']
+        file_bytes = file['data']
+        filesave.append(file_name)
+        with open(f'./document/{file_name}', 'wb') as f:
             f.write(file_bytes)
     return readFile(filesave)

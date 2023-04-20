@@ -1,4 +1,5 @@
 from difflib import get_close_matches as gcm
+from config.db import conn
 import requests
 import PyPDF2
 import re
