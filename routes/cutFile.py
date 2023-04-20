@@ -29,17 +29,15 @@ def readFile(files):
     return indice
 
 @cF.post('/document', tags=['indice'])
-async def createFile(files):
-    try:
-        filesave = []
-        for id in files:
-            file = conn.local.files.find_one({"_id": id})
-            file_name = file['name']
-            file_bytes = file['data']
-            filesave.append(file_name)
-            with open(f'./document/{file_name}', 'wb') as f:
-                f.write(file_bytes)
-        return readFile(filesave)
-    except Exception as e:
-        print(e)
-        raise
+def createFile(files):
+    filesave = []
+    print(files[1])
+    for id in files:
+        file = conn.local.files.find_one({"_id": id})
+        file_name = file['name']
+        file_bytes = file['data']
+        filesave.append(file_name)
+        with open(f'./document/{file_name}', 'wb') as f:
+            f.write(file_bytes)
+    return readFile(filesave)
+    
