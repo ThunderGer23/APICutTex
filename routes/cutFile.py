@@ -1,9 +1,10 @@
 import PyPDF2
-from fastapi import APIRouter, File, UploadFile, Form
+from fastapi import APIRouter
+from models.app import Files
 from difflib import get_close_matches as gcm
 from config.db import conn
 from itertools import chain
-from typing import List
+from bson.objectid import ObjectId
 from os import listdir
 from os.path import exists
 from helpers.processText import processText as pT
@@ -29,15 +30,13 @@ def readFile(files):
     return indice
 
 @cF.post('/document', tags=['indice'])
-def createFile(ids: list=Form(...)):
+def createFile(files: Files):
     filesave = []
-    print(ids[1])
-    for id in ids:
-        file = conn.local.files.find_one({"_id": id})
+    for id in files.id:
+        file = conn.local.files.find_one({"_id": ObjectId(id)})
         file_name = file['name']
-        file_bytes = file['data']
         filesave.append(file_name)
         with open(f'./document/{file_name}', 'wb') as f:
-            f.write(file_bytes)
+            f.write(file['data'])
     return readFile(filesave)
     

@@ -1,5 +1,8 @@
 from difflib import get_close_matches as gcm
 from config.db import conn
+from os import listdir as ld
+from os import path as pth
+from os import remove as rm
 import requests
 import PyPDF2
 import re
@@ -26,6 +29,7 @@ def delnum(s):
 def sections(section, name):
     pdfRead = PyPDF2.PdfFileReader(open(f'./document/{name}', 'rb'))
     s = {}
+    ids = []
     match = ""
     secforana = ""
     for i in section:
@@ -43,9 +47,18 @@ def sections(section, name):
             match = regex.search(secforana)
         else: match = regex.search(pdfRead.getPage(int(s[arr[i]]['pag'])-1).extract_text().lower())
         analysis = match.group(1) if(match != None) else None
-        # r = requests.get('https://pathfake:v/{analysis}')
+        ids.append(str(conn.local.files.insert_one({"name": name,"data": analysis}).inserted_id))
+        value = {"id": ids}
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+        # response = requests.post('http://www.apipara-production.up.railway.app/document', headers=headers, json=value)
         # if(r.status_code): r.json()
         print(analysis)
+        lista = ld('./document')
+        for file_name in lista:
+            [rm(pth.join("document", file)) for file in ld("document")]
         Lon -=1
     return analysis
 
