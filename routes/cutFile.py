@@ -38,5 +38,7 @@ def createFile(files: Files):
         filesave.append(file_name)
         with open(f'./document/{file_name}', 'wb') as f:
             f.write(file['data'])
-    return readFile(filesave)
+    print(filesave)
+    readFile(filesave)
+    return 'ok'
     
