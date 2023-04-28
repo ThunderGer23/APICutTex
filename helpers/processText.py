@@ -27,6 +27,7 @@ def delnum(s):
     return s
 
 def sections(section, name):
+    global Lon
     pdfRead = PyPDF2.PdfFileReader(open(f'./document/{name}', 'rb'))
     s = {}
     ids = []
