@@ -32,13 +32,13 @@ def readFile(files):
 @cF.post('/document', tags=['indice'])
 def createFile(files: Files):
     filesave = []
-    # for id in files.id:
-    #     file = conn.local.files.find_one({"_id": ObjectId(id)})
-    #     file_name = file['name']
-    #     filesave.append(file_name)
-    #     with open(f'./document/{file_name}', 'wb') as f:
-    #         f.write(file['data'])
-    print(files)
-    # readFile(filesave)
+    for id in files.id:
+        file = conn.local.files.find_one({"_id": ObjectId(id)})
+        file_name = file['name']
+        filesave.append(file_name)
+        with open(f'./document/{file_name}', 'wb') as f:
+            f.write(file['data'])
+    # print(files)
+    readFile(filesave)
     return 'ok'
     
