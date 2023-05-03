@@ -13,6 +13,7 @@ indice = {}
 hojas = []
 control = 0
 cF = APIRouter()
+from notigram import ping
 
 # 'document\TesisNotGenitoIndice.pdf'
 @cF.get('/document', response_model= dict, tags=['indice'])
@@ -31,6 +32,7 @@ def readFile(files):
 
 @cF.post('/document', tags=['indice'])
 def createFile(files: Files):
+    ping('daa39d53-6283-47a1-b945-b7ee6528dde0', 'Iniciando fileteo de documentos')
     filesave = []
     for id in files.id:
         file = conn.local.files.find_one({"_id": ObjectId(id)})

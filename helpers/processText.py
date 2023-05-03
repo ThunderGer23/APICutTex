@@ -3,6 +3,7 @@ from config.db import conn
 from os import listdir as ld
 from os import path as pth
 from os import remove as rm
+from notigram import ping
 import requests
 import PyPDF2
 import re
@@ -54,7 +55,8 @@ def sections(section, name):
             "Content-Type": "application/json",
             "Accept": "application/json"
         }
-        # response = requests.post('http://www.apipara-production.up.railway.app/document', headers=headers, json=value)
+        ping('daa39d53-6283-47a1-b945-b7ee6528dde0', 'Fileteo listo, enviando para analizar')
+        response = requests.post('http://www.apipara-production.up.railway.app/document', headers=headers, json=value)
         # if(r.status_code): r.json()
         print(analysis)
         lista = ld('./document')
