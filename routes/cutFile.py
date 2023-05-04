@@ -36,6 +36,7 @@ def createFile(files: Files):
     filesave = []
     for id in files.id:
         file = conn.local.files.find_one({"_id": ObjectId(id)})
+        print(file['name'])
         file_name = file['name']
         filesave.append(file_name)
         with open(f'./document/{file_name}', 'wb') as f:
