@@ -8,6 +8,7 @@ from bson.objectid import ObjectId
 from os import listdir
 from os.path import exists
 from helpers.processText import processText as pT
+import time
 FI = chain.from_iterable
 indice = {}
 hojas = []
@@ -34,8 +35,9 @@ def readFile(files):
 def createFile(files: Files):
     ping('daa39d53-6283-47a1-b945-b7ee6528dde0', 'Iniciando fileteo de documentos')
     filesave = []
+    time.sleep(2000)
     for id in files.id:
-        file = conn.local.files.find_one({"_id": ObjectId(id)})
+        file = conn.test.files.find_one({"_id": ObjectId(id)})
         print(file['name'])
         file_name = file['name']
         filesave.append(file_name)
